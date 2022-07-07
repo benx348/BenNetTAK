@@ -14,10 +14,10 @@ runcmd:
   - apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose
   - systemctl start docker
   - systemctl enable docker
-  - mkdir -p /mnt/bennetfts_persist
-  - mount -o discard,defaults,noatime /dev/disk/by-id/scsi-0DO_Volume_bennetfts-persist /mnt/bennetfts_persist
-  - docker run -d -v /var/run/docker.sock:/var/run/docker.sock -v /mnt/bennetfts_persist/portainer_data:/data --name Portainer -p 9000:9000/tcp portainer/portainer-ce
-  - docker run -d -v /mnt/bennetfts_persist/fts_data:/data --name BenNetFTS -p 8080:8080/tcp -p 8086:8086/tcp -p 8087:8087/tcp -p 8089:8089/tcp -p 8443:8443/tcp -p 19023:19023/tcp -p 5000:5000/tcp -e PUID=1000 -e GUID=1000 -e FTS_CONNECTION_MESSAGE=BenNetFTS -e FTS_COT_TO_DB=null freetakteam/freetakserver:1.7.5
-
+  - mkdir -p /mnt/bennettaky_volume
+  - mount -o discard,defaults,noatime /dev/disk/by-id/scsi-0DO_Volume_bennettaky-volume /mnt/bennettaky_volume
+  - echo '/dev/disk/by-id/scsi-0DO_Volume_bennettaky-volume /mnt/bennettaky_volume ext4 defaults,nofail,discard 0 0' | sudo tee -a /etc/fstab
+  - docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /mnt/bennettaky_volumecontainers/portainer_data:/data portainer/portainer-ce:latest
+  - docker run -d -e mode=data -e bind_ip=0.0.0.0 -e public_ip=123.123.123.123 -v /mnt/bennettaky_volume/taky_data:/data -p 8080:8080 --name taky-data skadakar/taky:0.8.3
   
 final_message: "The system is up, after $UPTIME seconds"
