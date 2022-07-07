@@ -2,7 +2,7 @@ terraform {
   required_providers {
     digitalocean = {
       source = "digitalocean/digitalocean"
-      version = "~> 2.0"
+      version = "~> 2.21.0"
     }
   }
 }
@@ -18,9 +18,16 @@ provider "digitalocean" {
 data "digitalocean_ssh_key" "terraform" {
   name = "DigitalOceanLinux"
 }
-data "digitalocean_volume" "bennetfts-persist" {
-  name   = "bennetfts-persist"
-  region = "nyc1"
+data "digitalocean_volume_snapshot" "snapshot" {
+  name  = "bennettaky-volume-snapshot"
+  region      = "nyc1"
+  most_recent = true
 }
-
+data "digitalocean_domain" "domain" {
+  name = "Digital_Ocean_Domain"
+}
+#data "digitalocean_volume" "bennetfts-persist" {
+#  name   = "bennetfts-persist"
+#  region = "nyc1"
+#}
 
